@@ -6,8 +6,8 @@ app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
 
-users = {}
-points = {}
+users = []
+showResults = False
 
 @app.route('/')
 def index():
@@ -15,40 +15,56 @@ def index():
 
 @socketio.on('connect')
 def connect():
-    emit('users', list(users.values()), broadcast=True)
+    emit('users', users, broadcast=True)
 
 @socketio.on('username')
 def username(username):
-    users[request.sid] = username
-    print(users)
+    users.append({
+        'sid': request.sid,
+        'username': username,
+        'points': 0,
+        'voted': False
+    })
     emit('status', {'msg': f'{username} connected'}, broadcast=True)
     emit('users', users, broadcast=True)
-    print("Users are now", users)
 
 @socketio.on('disconnect')
 def disconnect():
-    print("call to disconnect")
-    username = users.pop(request.sid, None)
-    if username:
+    global users  # Make sure to declare users as global if it's a global variable
+    sid = request.sid
+    user_index = next((index for index, user in enumerate(users) if user['sid'] == sid), None)
+    if user_index is not None:
+        user = users.pop(user_index)
+        username = user['username']
         emit('status', {'msg': f'{username} disconnected'}, broadcast=True)
         emit('users', users, broadcast=True)
 
-@socketio.on('point')
-def on_point(data):
-    print("data", data)
-    username = users.get(request.sid)
-    if username:
-        points[username] = data['value']
-        emit('status', {'msg': f'{username} submitted a point'}, broadcast=True)
 
-@socketio.on('getAllPoints')
-def on_get_all_points():
-    emit('allPoints', points, broadcast=True)
+@socketio.on('point')
+def on_point(value):
+    user = next((user for user in users if user['sid'] == request.sid), None)
+    if user:
+        user['points'] = value
+        user['voted'] = True
+        emit('status', {'msg': f'{user["username"]} submitted a point'}, broadcast=True)
+        emit('users', users, broadcast=True)
+
+@socketio.on('showResults')
+def on_show_results():
+    global showResults
+    showResults = True
+    emit('showResults', showResults, broadcast=True)
 
 @socketio.on('clearPoints')
 def on_clear_points():
-    points.clear()
+    global users
+    for user in users:
+        user['points'] = 0
+        user['voted'] = False
+    showResults = False
     emit('status', {'msg': 'Points cleared'}, broadcast=True)
+    emit('users', users, broadcast=True)
+    emit('showResults', showResults, broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

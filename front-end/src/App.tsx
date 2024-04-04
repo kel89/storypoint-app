@@ -4,13 +4,14 @@ import { socket } from "./socket";
 import "./App.css";
 import Connect from "./components/Connect";
 import VotingView from "./components/VotingView";
+import ResultsView from "./components/ResultsView";
+import { User } from "./types/User";
 
 function App() {
     const [isConnected, setIsConnected] = useState(false);
     const [username, setUsername] = useState("");
-    const [sid, setSid] = useState();
-    const [users, setUsers] = useState({});
-    const [points, setPoints] = useState({});
+    const [sid, setSid] = useState<string>();
+    const [users, setUsers] = useState<User[]>([]);
     const [showPoints, setShowPoints] = useState(false);
 
     useEffect(() => {
@@ -19,26 +20,29 @@ function App() {
             setIsConnected(true);
         };
 
-        const onUsers = (users) => {
+        const onUsers = (users: User[]) => {
             console.log("Settings users", users);
             setUsers(users);
         };
 
-        const onStatus = (status) => {
-            console.log(status);
+        const onShowResults = (show: boolean) => {
+            setShowPoints(show);
         };
 
-        const onUpdatePoints = (points) => {
-            console.log("Update points to", points);
+        const onStatus = (status: string) => {
+            console.log(status);
         };
 
         socket.on("connect", onConnect);
         socket.on("users", onUsers);
         socket.on("status", onStatus);
-        socket.on("updatePoints", onUpdatePoints);
+        socket.on("showResults", onShowResults);
 
         return () => {
             socket.off("connect", onConnect);
+            socket.off("users", onUsers);
+            socket.off("status", onStatus);
+            socket.off("showResults", onShowResults);
             socket.disconnect();
         };
     }, []);
@@ -53,28 +57,11 @@ function App() {
     }
 
     if (showPoints) {
-        return <>Show the results</>;
+        return <ResultsView users={users} />;
     }
 
     // Else, show voting page
-    return (
-        <VotingView
-            users={users}
-            points={points}
-            sid={sid}
-            setShowPoints={setShowPoints}
-        />
-    );
-
-    return (
-        <>
-            <div className="text-blue-500">
-                You are connected to the socket?
-            </div>
-            <button onClick={disconnect}>Disconnect</button>
-            <br />
-        </>
-    );
+    return <VotingView users={users} />;
 }
 
 export default App;
