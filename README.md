@@ -27,16 +27,41 @@ If you want to use a tunnel for this bad boy, you can run:
 Here is a bash helper that you can use. You may need to tweak the paths:
 
 ```
-function run_storypoint_app() {
-  # Build the Docker image
-  docker build -t storypoint-app .
+function storypointer() {
+  running=true
+  # Run the docker container
+  container_id=$(docker run -d -p 8000:8000 storypoint-app)
 
-  # Run the Docker container
-  docker run -d -p 8000:8000 storypoint-app
+  # Open an ngrok
+  ngrok http 8000 > /dev/null &
+  ngrok_pid=$!
 
-  # Start ngrok and expose the Docker container
-  ngrok_url=$(ngrok http 8000 -log=stdout | grep -m 1 "url=https://" | sed -n 's/^.*url=//p')
+  function cleanup {
+    echo "Stopping docker conatiner ..."
+    docker stop $container_id
+    docker container rm $container_id
 
+    echo "Stopping ngrok ..."
+    kill -9 $ngrok_pid
+
+    running=false
+    echo "Cleanup complete"
+  }
+
+  trap cleanup INT
+
+  # Wait for ngrok to start up
+  sleep 2
+
+  # Fetch the ngrok URL and print it to the console
+  ngrok_url=$(curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url')
   echo "Your application is available at: $ngrok_url"
+
+  # Keep the script running until the Docker container or the ngrok process exits
+  while $running; do
+    sleep 1
+  done
 }
 ```
+
+Also, if you want to have this build it (though you only need to do that once) would have to add it that as well.
