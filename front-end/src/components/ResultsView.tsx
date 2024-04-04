@@ -1,5 +1,5 @@
-import React from "react";
 import UserList from "./UserList";
+import { User } from "../types/User";
 import { socket } from "../socket";
 
 type ResultsViewProps = {

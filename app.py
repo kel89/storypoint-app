@@ -1,6 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -9,9 +10,13 @@ socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
 users = []
 showResults = False
 
-@app.route('/')
-def index():
-    return "Welcome to the WebSocket server!"
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists("front-end/dist/" + path):
+        return send_from_directory('front-end/dist', path)
+    else:
+        return send_from_directory('front-end/dist', 'index.html')
 
 @socketio.on('connect')
 def connect():

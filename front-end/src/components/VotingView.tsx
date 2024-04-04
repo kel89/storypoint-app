@@ -1,7 +1,7 @@
-import React from "react";
 import UserList from "./UserList";
 import PointSelector from "./PointSelector";
 import { socket } from "../socket";
+import { User } from "../types/User";
 
 type VotingViewProps = {
     users: User[];

@@ -47,10 +47,6 @@ function App() {
         };
     }, []);
 
-    const disconnect = () => {
-        socket.disconnect();
-    };
-
     // If not connected, force user to conenct
     if (!isConnected) {
         return <Connect username={username} setUsername={setUsername} />;
