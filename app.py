@@ -1,8 +1,10 @@
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
 
 users = {}
 points = {}
@@ -13,21 +15,31 @@ def index():
 
 @socketio.on('connect')
 def connect():
-    username = request.args.get('username')
-    if username:
-        users[request.sid] = username
-        emit('status', {'msg': f'{username} connected'}, broadcast=True)
-        emit('users', list(users.values()), broadcast=True)
+    emit('users', list(users.values()), broadcast=True)
+
+@socketio.on('username')
+def username(username):
+    users[request.sid] = username
+    emit('status', {'msg': f'{username} connected'}, broadcast=True)
+    emit('users', list(users.values()), broadcast=True)
+    print("Users are now", users)
 
 @socketio.on('disconnect')
 def disconnect():
+    print("call to disconnect")
     username = users.pop(request.sid, None)
     if username:
         emit('status', {'msg': f'{username} disconnected'}, broadcast=True)
         emit('users', list(users.values()), broadcast=True)
 
+@socketio.on('testEmit')
+def test_emit(data):
+    print(data)
+    emit('status', {'msg': 'Test emit received'}, broadcast=True)
+
 @socketio.on('point')
 def on_point(data):
+    print("data", data)
     username = users.get(request.sid)
     if username:
         points[username] = data['value']
