@@ -1,6 +1,7 @@
 import UserList from "./UserList";
 import { User } from "../types/User";
 import { socket } from "../socket";
+import ResultsGraph from "./ResultsGraph";
 
 type ResultsViewProps = {
     users: User[];
@@ -26,7 +27,9 @@ export default function ResultsView({ users }: ResultsViewProps) {
                         Clear Votes
                     </button>
                 </div>
-                <div className="w-2/3 p-4">Results Graph</div>
+                <div className="w-2/3 p-4">
+                    <ResultsGraph users={users} />
+                </div>
             </div>
         </>
     );

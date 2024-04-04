@@ -35,7 +35,7 @@ def username(username):
 
 @socketio.on('disconnect')
 def disconnect():
-    global users  # Make sure to declare users as global if it's a global variable
+    global users 
     sid = request.sid
     user_index = next((index for index, user in enumerate(users) if user['sid'] == sid), None)
     if user_index is not None:
