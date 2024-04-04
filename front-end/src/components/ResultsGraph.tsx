@@ -18,6 +18,7 @@ export default function ResultsGraph({ users }: ResultsGraphProps) {
     };
 
     const pointsCount = users.reduce((acc, user) => {
+        if (user.points === 0) return acc;
         acc[user.points] = (acc[user.points] || 0) + 1;
         return acc;
     }, {});
@@ -30,7 +31,7 @@ export default function ResultsGraph({ users }: ResultsGraphProps) {
 
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+            <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                 <Pie
                     dataKey="value"
                     data={data}
@@ -43,7 +44,7 @@ export default function ResultsGraph({ users }: ResultsGraphProps) {
                         <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
                 </Pie>
-                <Tooltip />
+                {/* <Tooltip /> */}
             </PieChart>
         </ResponsiveContainer>
     );

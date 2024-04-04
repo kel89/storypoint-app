@@ -21,6 +21,7 @@ def serve(path):
 @socketio.on('connect')
 def connect():
     emit('users', users, broadcast=True)
+    emit('showResults', showResults, broadcast=True)
 
 @socketio.on('username')
 def username(username):
