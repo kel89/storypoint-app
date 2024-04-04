@@ -1,6 +1,11 @@
+## Local Changes
+
+If you make changes to the FE, and you want to see them reflected when you connect via python, you have to make sure that you build it (the flask only serves the static, compiled stuff), just run `npm run build`
+
 ## Running
 
 To run with gunicorn:
+`gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 module:app`
 
 ## Docker
 
