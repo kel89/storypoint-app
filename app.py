@@ -20,8 +20,9 @@ def connect():
 @socketio.on('username')
 def username(username):
     users[request.sid] = username
+    print(users)
     emit('status', {'msg': f'{username} connected'}, broadcast=True)
-    emit('users', list(users.values()), broadcast=True)
+    emit('users', users, broadcast=True)
     print("Users are now", users)
 
 @socketio.on('disconnect')
@@ -30,12 +31,7 @@ def disconnect():
     username = users.pop(request.sid, None)
     if username:
         emit('status', {'msg': f'{username} disconnected'}, broadcast=True)
-        emit('users', list(users.values()), broadcast=True)
-
-@socketio.on('testEmit')
-def test_emit(data):
-    print(data)
-    emit('status', {'msg': 'Test emit received'}, broadcast=True)
+        emit('users', users, broadcast=True)
 
 @socketio.on('point')
 def on_point(data):

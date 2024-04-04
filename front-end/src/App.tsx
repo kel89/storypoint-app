@@ -3,15 +3,19 @@ import { socket } from "./socket";
 
 import "./App.css";
 import Connect from "./components/Connect";
+import VotingView from "./components/VotingView";
 
 function App() {
     const [isConnected, setIsConnected] = useState(false);
     const [username, setUsername] = useState("");
-    const [users, setUsers] = useState([]);
+    const [sid, setSid] = useState();
+    const [users, setUsers] = useState({});
     const [points, setPoints] = useState({});
+    const [showPoints, setShowPoints] = useState(false);
 
     useEffect(() => {
         const onConnect = () => {
+            setSid(socket.id);
             setIsConnected(true);
         };
 
@@ -43,14 +47,24 @@ function App() {
         socket.disconnect();
     };
 
-    const test = () => {
-        console.log("testing");
-        socket.emit("testEmit", { a: 1, b: 2 });
-    };
-
+    // If not connected, force user to conenct
     if (!isConnected) {
         return <Connect username={username} setUsername={setUsername} />;
     }
+
+    if (showPoints) {
+        return <>Show the results</>;
+    }
+
+    // Else, show voting page
+    return (
+        <VotingView
+            users={users}
+            points={points}
+            sid={sid}
+            setShowPoints={setShowPoints}
+        />
+    );
 
     return (
         <>
