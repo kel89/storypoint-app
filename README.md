@@ -73,3 +73,13 @@ First note that to build the container for lightsail on an apple silicon mac, yo
 
 Then you need to push it to the lightsaild project (make sure the correct aws profile is active in the terminal section).
 `aws lightsail push-container-image --region <Region> --service-name <ContainerServiceName> --label <ContainerImageLabel> --image <LocalContainerImageName>:<ImageTag>`
+
+### Domain and Routing
+
+To job my memory later, I was able to link this to a subdomain in my aws route 53 hosted zone.
+To do this I made my own CNAME entry that had the basic subdomain (sub.example.com) pointing
+to the public URL that lightsail provides. But then I had to get the certificate working, so
+in lightsail > custom domain, I had to create a certificate, tell it I wanted the subdomain,
+it will not be able to figure out it is legit automatically, but it will give you a name and an entry.
+I had to take that and make _another_ CNAME entry in the hosted zone. It took a minute, but
+it realized the cert was then legit, and another min to propagate, then it all worked.
