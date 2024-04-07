@@ -25,6 +25,7 @@ def connect():
 
 @socketio.on('username')
 def username(username):
+    global users
     users.append({
         'sid': request.sid,
         'username': username,
@@ -48,6 +49,7 @@ def disconnect():
 
 @socketio.on('point')
 def on_point(value):
+    global users
     user = next((user for user in users if user['sid'] == request.sid), None)
     if user:
         user['points'] = value
@@ -64,12 +66,19 @@ def on_show_results():
 @socketio.on('clearPoints')
 def on_clear_points():
     global users
+    global showResults
     for user in users:
         user['points'] = 0
         user['voted'] = False
     showResults = False
     emit('status', {'msg': 'Points cleared'}, broadcast=True)
     emit('users', users, broadcast=True)
+    emit('showResults', showResults, broadcast=True)
+
+@socketio.on('hidePoints')
+def on_hide_points():
+    global showResults
+    showResults = False
     emit('showResults', showResults, broadcast=True)
 
 if __name__ == '__main__':

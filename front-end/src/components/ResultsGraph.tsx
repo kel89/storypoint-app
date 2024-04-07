@@ -30,7 +30,7 @@ export default function ResultsGraph({ users }: ResultsGraphProps) {
     }));
 
     return (
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minHeight={200}>
             <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                 <Pie
                     dataKey="value"

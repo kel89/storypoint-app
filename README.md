@@ -65,3 +65,11 @@ function storypointer() {
 ```
 
 Also, if you want to have this build it (though you only need to do that once) would have to add it that as well.
+
+## Lightsail
+
+First note that to build the container for lightsail on an apple silicon mac, you need to use buildx like:
+`docker buildx build -t storypoint-app:lightsail --platform linux/amd64 .`
+
+Then you need to push it to the lightsaild project (make sure the correct aws profile is active in the terminal section).
+`aws lightsail push-container-image --region <Region> --service-name <ContainerServiceName> --label <ContainerImageLabel> --image <LocalContainerImageName>:<ImageTag>`

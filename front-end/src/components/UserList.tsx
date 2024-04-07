@@ -6,7 +6,7 @@ type UserListProps = {
 };
 export default function UserList({ users, showPoints }: UserListProps) {
     return (
-        <div className="p-4 bg-white rounded-lg shadow-md">
+        <div className="p-4 bg-white rounded-lg border shadow-md">
             <h1 className="text-2xl font-bold mb-4">Seals</h1>
             {users.map((user) => {
                 return (

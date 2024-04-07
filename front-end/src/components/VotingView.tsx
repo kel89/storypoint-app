@@ -14,8 +14,8 @@ export default function VotingView({ users }: VotingViewProps) {
     };
     return (
         <>
-            <div className="flex justify-between">
-                <div className="w-1/3 p-4 flex flex-col items-center">
+            <div className="flex flex-col sm:flex-row">
+                <div className="w-full sm:w-1/3 p-4 flex flex-col items-center">
                     <div className="w-full mb-4">
                         <UserList users={users} showPoints={false} />
                     </div>
@@ -26,7 +26,7 @@ export default function VotingView({ users }: VotingViewProps) {
                         Show Votes
                     </button>
                 </div>
-                <div className="w-2/3 p-4">
+                <div className="w-full sm:w-2/3 p-4">
                     <PointSelector />
                 </div>
             </div>
