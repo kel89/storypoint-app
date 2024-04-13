@@ -8,13 +8,13 @@ type ResultsGraphProps = {
 
 export default function ResultsGraph({ users }: ResultsGraphProps) {
     const colorClasses = {
-        1: "#48BB78",
-        2: "#48BB78",
-        3: "#ECC94B",
-        5: "#ECC94B",
-        8: "#ED8936",
-        13: "#E53E3E",
-        21: "#E53E3E",
+        1: "#48BB78", // Green
+        2: "#81E6D9", // Teal
+        3: "#D53F8C", // Pink
+        5: "#ECC94B", // Yellow
+        8: "#ED8936", // Orange
+        13: "#E53E3E", // Red
+        21: "#667EEA", // Indigo
     };
 
     const pointsCount = users.reduce((acc, user) => {
@@ -37,7 +37,7 @@ export default function ResultsGraph({ users }: ResultsGraphProps) {
                     data={data}
                     labelLine={false}
                     label={({ name, percent }) =>
-                        `${name} points: ${(percent * 100).toFixed(0)}%`
+                        `${name}: ${(percent * 100).toFixed(0)}%`
                     }
                 >
                     {data.map((entry, index) => (

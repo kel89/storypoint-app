@@ -5,9 +5,15 @@ import { User } from "../types/User";
 
 type VotingViewProps = {
     users: User[];
+    presentationMode: boolean;
+    setPresentationMode: (mode: boolean) => void;
 };
 
-export default function VotingView({ users }: VotingViewProps) {
+export default function VotingView({
+    users,
+    presentationMode,
+    setPresentationMode,
+}: VotingViewProps) {
     const emitShowPoints = () => {
         console.log("Show Votes");
         socket.emit("showResults");
@@ -15,8 +21,12 @@ export default function VotingView({ users }: VotingViewProps) {
     return (
         <>
             <div className="flex flex-col sm:flex-row">
-                <div className="w-full sm:w-1/3 p-4 flex flex-col items-center">
-                    <div className="w-full mb-4">
+                <div
+                    className={`w-full ${
+                        presentationMode ? "sm:w-full" : "sm:w-1/3"
+                    } p-4 sm:p-8 flex flex-col items-center justify-center`}
+                >
+                    <div className="w-full max-w-2xl mb-4">
                         <UserList users={users} showPoints={false} />
                     </div>
                     <button
@@ -25,10 +35,23 @@ export default function VotingView({ users }: VotingViewProps) {
                     >
                         Show Votes
                     </button>
+                    <button
+                        className="text-blue-500 hover:bg-blue-100 px-4 py-2 rounded transition-colors duration-200"
+                        onClick={() => setPresentationMode(!presentationMode)}
+                    >
+                        {presentationMode
+                            ? "Exit Presentation Mode"
+                            : "Enter Presentation Mode"}
+                    </button>
                 </div>
-                <div className="w-full sm:w-2/3 p-4">
-                    <PointSelector />
-                </div>
+                {
+                    // If in presentation mode, don't show point selector
+                    presentationMode ? null : (
+                        <div className="w-full sm:w-2/3 p-4">
+                            <PointSelector />
+                        </div>
+                    )
+                }
             </div>
         </>
     );

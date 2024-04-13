@@ -13,6 +13,7 @@ function App() {
     const [sid, setSid] = useState<string>();
     const [users, setUsers] = useState<User[]>([]);
     const [showPoints, setShowPoints] = useState(false);
+    const [presentationMode, setPresentationMode] = useState(false);
 
     useEffect(() => {
         const onConnect = () => {
@@ -57,7 +58,13 @@ function App() {
     }
 
     // Else, show voting page
-    return <VotingView users={users} />;
+    return (
+        <VotingView
+            users={users}
+            presentationMode={presentationMode}
+            setPresentationMode={setPresentationMode}
+        />
+    );
 }
 
 export default App;
