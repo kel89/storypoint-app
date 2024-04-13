@@ -24,11 +24,12 @@ def connect():
     emit('showResults', showResults, broadcast=True)
 
 @socketio.on('username')
-def username(username):
+def username(user_data):
     global users
     users.append({
         'sid': request.sid,
-        'username': username,
+        'username': user_data['username'],
+        'role': user_data['role'],
         'points': 0,
         'voted': False
     })

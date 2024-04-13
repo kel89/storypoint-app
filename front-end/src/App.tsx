@@ -10,6 +10,7 @@ import { User } from "./types/User";
 function App() {
     const [isConnected, setIsConnected] = useState(false);
     const [username, setUsername] = useState("");
+    const [role, setRole] = useState();
     const [sid, setSid] = useState<string>();
     const [users, setUsers] = useState<User[]>([]);
     const [showPoints, setShowPoints] = useState(false);
@@ -50,7 +51,14 @@ function App() {
 
     // If not connected, force user to conenct
     if (!isConnected) {
-        return <Connect username={username} setUsername={setUsername} />;
+        return (
+            <Connect
+                username={username}
+                setUsername={setUsername}
+                role={role}
+                setRole={setRole}
+            />
+        );
     }
 
     if (showPoints) {

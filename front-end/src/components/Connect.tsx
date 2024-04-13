@@ -1,15 +1,23 @@
 import React, { useState, FormEvent } from "react";
 import { socket } from "../socket";
+import { Role } from "../types/Role";
 
-export default function Connect({ username, setUsername }) {
+export default function Connect({ username, setUsername, role, setRole }) {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        // You can emit the username to the server here
-        // socket.emit('username', username);
-        // socket.emit("connect", username);
+        console.log(username);
+        console.log(role);
+        if (username.trim() === "" || role === "") {
+            alert("Please enter a username and select a role");
+            return;
+        }
+        return;
         console.log("About to connect");
         socket.connect();
-        socket.emit("username", username);
+        socket.emit("username", {
+            username: username,
+            role: role,
+        });
     };
 
     return (
@@ -30,6 +38,26 @@ export default function Connect({ username, setUsername }) {
                             onChange={(e) => setUsername(e.target.value)}
                             className="px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
+                        <h2 className="text-2xl">Select your Role</h2>
+                        <div className="flex flex-col items-start mb-4">
+                            {Object.values(Role).map((roleValue) => (
+                                <label
+                                    key={roleValue}
+                                    className="inline-flex items-center mt-3"
+                                >
+                                    <input
+                                        type="radio"
+                                        className="form-radio h-5 w-5 text-blue-600"
+                                        checked={role === roleValue}
+                                        onChange={() => setRole(roleValue)}
+                                    />
+                                    <span className="ml-2 text-gray-700">
+                                        {roleValue}
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+
                         <button
                             type="submit"
                             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"
