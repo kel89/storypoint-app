@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { socket } from "./socket";
+import { ToastContainer } from "react-toastify";
 
 import "./App.css";
+import "react-toastify/dist/ReactToastify.min.css";
 import Connect from "./components/Connect";
 import VotingView from "./components/VotingView";
 import ResultsView from "./components/ResultsView";
@@ -50,28 +52,27 @@ function App() {
     }, []);
 
     // If not connected, force user to conenct
-    if (!isConnected) {
-        return (
-            <Connect
-                username={username}
-                setUsername={setUsername}
-                role={role}
-                setRole={setRole}
-            />
-        );
-    }
-
-    if (showPoints) {
-        return <ResultsView users={users} />;
-    }
-
-    // Else, show voting page
     return (
-        <VotingView
-            users={users}
-            presentationMode={presentationMode}
-            setPresentationMode={setPresentationMode}
-        />
+        <>
+            {!isConnected ? (
+                <Connect
+                    username={username}
+                    setUsername={setUsername}
+                    role={role}
+                    setRole={setRole}
+                />
+            ) : showPoints ? (
+                <ResultsView users={users} />
+            ) : (
+                <VotingView
+                    users={users}
+                    presentationMode={presentationMode}
+                    setPresentationMode={setPresentationMode}
+                />
+            )}
+
+            <ToastContainer />
+        </>
     );
 }
 

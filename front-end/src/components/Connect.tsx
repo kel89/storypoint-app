@@ -1,17 +1,18 @@
 import React, { useState, FormEvent } from "react";
 import { socket } from "../socket";
 import { Role } from "../types/Role";
+import { toast } from "react-toastify";
 
 export default function Connect({ username, setUsername, role, setRole }) {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log(username);
-        console.log(role);
-        if (username.trim() === "" || role === "") {
-            alert("Please enter a username and select a role");
+
+        if (username.trim() === "" || role === undefined) {
+            toast.error("Must enter username and select role to connect", {
+                position: "top-center",
+            });
             return;
         }
-        return;
         console.log("About to connect");
         socket.connect();
         socket.emit("username", {
@@ -52,7 +53,16 @@ export default function Connect({ username, setUsername, role, setRole }) {
                                         onChange={() => setRole(roleValue)}
                                     />
                                     <span className="ml-2 text-gray-700">
-                                        {roleValue}
+                                        {roleValue
+                                            .split("_")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")}
                                     </span>
                                 </label>
                             ))}
