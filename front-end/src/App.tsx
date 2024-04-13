@@ -8,6 +8,7 @@ import Connect from "./components/Connect";
 import VotingView from "./components/VotingView";
 import ResultsView from "./components/ResultsView";
 import { User } from "./types/User";
+import githubLogo from "./assets/github-mark.svg";
 
 function App() {
     const [isConnected, setIsConnected] = useState(false);
@@ -71,6 +72,14 @@ function App() {
                 />
             )}
 
+            <a
+                href="https://github.com/kel89/storypoint-app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fixed bottom-4 right-4"
+            >
+                <img src={githubLogo} alt="GitHub logo" className="w-10 h-10" />
+            </a>
             <ToastContainer />
         </>
     );

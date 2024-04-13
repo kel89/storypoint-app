@@ -76,7 +76,7 @@ Then you need to push it to the lightsaild project (make sure the correct aws pr
 
 ### Domain and Routing
 
-To job my memory later, I was able to link this to a subdomain in my aws route 53 hosted zone.
+To jog my memory later, I was able to link this to a subdomain in my aws route 53 hosted zone.
 To do this I made my own CNAME entry that had the basic subdomain (sub.example.com) pointing
 to the public URL that lightsail provides. But then I had to get the certificate working, so
 in lightsail > custom domain, I had to create a certificate, tell it I wanted the subdomain,
