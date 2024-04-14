@@ -37,6 +37,12 @@ export default function PointSelector() {
                     {point}
                 </button>
             ))}
+            <button
+                onClick={() => handlePointSelect(0)}
+                className="w-full h-32 text-white bg-gray-500 rounded flex items-center justify-center text-2xl transition-colors"
+            >
+                Clear My Vote
+            </button>
         </div>
     );
 }

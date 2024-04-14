@@ -54,7 +54,7 @@ def on_point(value):
     user = next((user for user in users if user['sid'] == request.sid), None)
     if user:
         user['points'] = value
-        user['voted'] = True
+        user['voted'] = True if value > 0 else False
         emit('status', {'msg': f'{user["username"]} submitted a point'}, broadcast=True)
         emit('users', users, broadcast=True)
 

@@ -23,7 +23,11 @@ export default function ResultsView({ users }: ResultsViewProps) {
             <div className="flex flex-col sm:flex-row">
                 <div className="w-full sm:w-1/3 p-4 flex flex-col items-center">
                     <div className="w-full mb-4">
-                        <UserList users={users} showPoints={true} />
+                        <UserList
+                            users={users}
+                            showPoints={true}
+                            roleFilter={[]}
+                        />
                     </div>
                     <div className="w-full flex gap-2">
                         <button

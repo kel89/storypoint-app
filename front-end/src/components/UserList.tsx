@@ -51,7 +51,7 @@ export default function UserList({
             {users
                 .filter((user) => user.role !== Role.Presenter)
                 .filter((user) => {
-                    if (roleFilter.length === 0) {
+                    if (roleFilter && roleFilter.length === 0) {
                         return true;
                     }
                     return roleFilter.includes(user.role);

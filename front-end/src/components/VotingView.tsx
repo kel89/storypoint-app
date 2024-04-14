@@ -22,6 +22,12 @@ export default function VotingView({
         console.log("Show Votes");
         socket.emit("showResults");
     };
+
+    const clearPoints = () => {
+        console.log("Clearing points");
+        socket.emit("clearPoints");
+    };
+
     return (
         <>
             <div className="flex flex-col sm:flex-row">
@@ -43,14 +49,22 @@ export default function VotingView({
                             />
                         </div>
                     </div>
+                    <div className="w-full max-w-xl flex gap-2 mb-2">
+                        <button
+                            onClick={emitShowPoints}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors w-full"
+                        >
+                            Show Votes
+                        </button>
+                        <button
+                            onClick={clearPoints}
+                            className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700 transition-colors w-full"
+                        >
+                            Clear Votes
+                        </button>
+                    </div>
                     <button
-                        onClick={emitShowPoints}
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"
-                    >
-                        Show Votes
-                    </button>
-                    <button
-                        className="text-blue-500 hover:bg-blue-100 px-4 py-2 rounded transition-colors duration-200"
+                        className="text-blue-500 hover:bg-blue-100 px-4 py-2 rounded transition-colors duration-200 border border-blue-200"
                         onClick={() => setPresentationMode(!presentationMode)}
                     >
                         {presentationMode
