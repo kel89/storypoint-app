@@ -4,8 +4,13 @@ import { Role } from "../types/Role";
 type UserListProps = {
     users: User[];
     showPoints: boolean;
+    roleFilter: Role[];
 };
-export default function UserList({ users, showPoints }: UserListProps) {
+export default function UserList({
+    users,
+    showPoints,
+    roleFilter,
+}: UserListProps) {
     const isWaitingForUser = (user: User) => {
         return !showPoints && !user.voted;
     };
@@ -45,6 +50,12 @@ export default function UserList({ users, showPoints }: UserListProps) {
             <h1 className="text-2xl font-bold mb-4">Seals</h1>
             {users
                 .filter((user) => user.role !== Role.Presenter)
+                .filter((user) => {
+                    if (roleFilter.length === 0) {
+                        return true;
+                    }
+                    return roleFilter.includes(user.role);
+                })
                 .map((user) => {
                     return (
                         <div

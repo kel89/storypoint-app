@@ -1,7 +1,9 @@
+import { useState } from "react";
 import UserList from "./UserList";
 import PointSelector from "./PointSelector";
 import { socket } from "../socket";
 import { User } from "../types/User";
+import RoleFilter from "./RoleFilter";
 
 type VotingViewProps = {
     users: User[];
@@ -14,6 +16,8 @@ export default function VotingView({
     presentationMode,
     setPresentationMode,
 }: VotingViewProps) {
+    const [roleFilter, setRoleFilter] = useState([]);
+
     const emitShowPoints = () => {
         console.log("Show Votes");
         socket.emit("showResults");
@@ -27,7 +31,17 @@ export default function VotingView({
                     } p-4 sm:p-8 flex flex-col items-center justify-center`}
                 >
                     <div className="w-full max-w-2xl mb-4">
-                        <UserList users={users} showPoints={false} />
+                        <UserList
+                            users={users}
+                            showPoints={false}
+                            roleFilter={roleFilter}
+                        />
+                        <div className="mt-1">
+                            <RoleFilter
+                                roleFilter={roleFilter}
+                                setRoleFilter={setRoleFilter}
+                            />
+                        </div>
                     </div>
                     <button
                         onClick={emitShowPoints}
