@@ -17,6 +17,15 @@ def serve(path):
         return send_from_directory('front-end/dist', path)
     else:
         return send_from_directory('front-end/dist', 'index.html')
+    
+@app.route("/clear", methods=['GET'])
+def clear():
+    global users
+    global showResults
+    users = []
+    showResults = False
+    socketio.emit('clear')
+    return 'Cleared'
 
 @socketio.on('connect')
 def connect():

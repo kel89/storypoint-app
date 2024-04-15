@@ -38,16 +38,28 @@ function App() {
             console.log(status);
         };
 
+        const onClear = () => {
+            setUsername("");
+            setRole(undefined);
+            setSid(undefined);
+            setUsers([]);
+            setShowPoints(false);
+            setPresentationMode(false);
+            setIsConnected(false);
+        };
+
         socket.on("connect", onConnect);
         socket.on("users", onUsers);
         socket.on("status", onStatus);
         socket.on("showResults", onShowResults);
+        socket.on("clear", onClear);
 
         return () => {
             socket.off("connect", onConnect);
             socket.off("users", onUsers);
             socket.off("status", onStatus);
             socket.off("showResults", onShowResults);
+            socket.off("clear", onClear);
             socket.disconnect();
         };
     }, []);
