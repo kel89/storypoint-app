@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { socket } from "./socket";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 import "./App.css";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -46,6 +46,19 @@ function App() {
             setShowPoints(false);
             setPresentationMode(false);
             setIsConnected(false);
+            socket.disconnect();
+
+            toast("The room has been cleared!", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         };
 
         socket.on("connect", onConnect);
