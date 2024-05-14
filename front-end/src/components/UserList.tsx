@@ -5,6 +5,7 @@ import { createFloatingEmojis } from "../helpers/emojiAnimation";
 import { rainDollarEmojis } from "../helpers/rainDollars";
 import { expandCenterEmoji } from "../helpers/expandCenterEmoji";
 import { playHurryUp } from "../helpers/playHurryUp";
+import ReactionList from "./ReactionMenu";
 type UserListProps = {
     users: User[];
     showPoints: boolean;
@@ -49,24 +50,17 @@ export default function UserList({
         return <span className={`${colorClass} text-xs`}>({prettyRole})</span>;
     };
 
-    // Move this to a reactions component that can call all of them
-    // Actually, need to tie them to socket events, so in app
-    // And just have a button UI component that will make the calls
-    // Gonna want it to say who called the thing (and put it in a bottom toast)
-    const useExplode = () => {
-        createFloatingEmojis("😊", 3000, 100);
-    };
-
     return (
         <div className="p-4 bg-white rounded-lg border shadow-md">
             <h1 className="text-2xl font-bold mb-4">Seals</h1>
-            <button onClick={useExplode}>Explode</button>
+            <ReactionList />
+            {/* <button onClick={useExplode}>Explode</button>
             <button onClick={() => rainDollarEmojis("💵", 3000, 100)}>
                 Make it Rain
             </button>
             <button onClick={() => expandCenterEmoji("🤯", 3000)}>Wow</button>
             <br />
-            <button onClick={() => playHurryUp()}>Waiting</button>
+            <button onClick={() => playHurryUp()}>Waiting</button> */}
             {users
                 .filter((user) => user.role !== Role.Presenter)
                 .filter((user) => {

@@ -91,5 +91,15 @@ def on_hide_points():
     showResults = False
     emit('showResults', showResults, broadcast=True)
 
+@socketio.on('sendReaction')
+def handle_reaction(data):
+    print(data)
+    reaction = data['reaction']
+    user = data['sentBy']
+    emit('reaction', {
+        'reaction': reaction,
+        'sender': user
+    }, broadcast=True)
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)

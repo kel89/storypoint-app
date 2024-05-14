@@ -65,8 +65,8 @@ function App() {
             });
         };
 
-        const onReaction = (reaction: string, sender: string) => {
-            console.log("Reaction", reaction, sender);
+        const onReaction = (data: any) => {
+            const { reaction, sender } = data;
             let reactionName: string;
             if (reaction === "makeItRain") {
                 rainDollarEmojis("💵", 3000, 100);
@@ -86,7 +86,7 @@ function App() {
             }
             toast(`${sender} reacted with ${reactionName}`, {
                 position: "bottom-center",
-                autoClose: 3000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
