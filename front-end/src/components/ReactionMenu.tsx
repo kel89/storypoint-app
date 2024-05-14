@@ -1,11 +1,15 @@
+import React from "react";
 import { socket } from "../socket";
+import { UserContext } from "../context/UserContex";
 
 export default function ReactionList() {
+    const username = React.useContext(UserContext);
+
     const sendReaction = (reaction: string) => {
         console.log("About to send");
         socket.emit("sendReaction", {
             reaction: reaction,
-            sentBy: "user",
+            sentBy: username,
         });
     };
 

@@ -13,6 +13,7 @@ import { rainDollarEmojis } from "./helpers/rainDollars";
 import { playHurryUp } from "./helpers/playHurryUp";
 import { createFloatingEmojis } from "./helpers/emojiAnimation";
 import { expandCenterEmoji } from "./helpers/expandCenterEmoji";
+import { UserContext } from "./context/UserContex";
 
 function App() {
     const [isConnected, setIsConnected] = useState(false);
@@ -126,13 +127,17 @@ function App() {
                     setRole={setRole}
                 />
             ) : showPoints ? (
-                <ResultsView users={users} />
+                <UserContext.Provider value={username}>
+                    <ResultsView users={users} />
+                </UserContext.Provider>
             ) : (
-                <VotingView
-                    users={users}
-                    presentationMode={presentationMode}
-                    setPresentationMode={setPresentationMode}
-                />
+                <UserContext.Provider value={username}>
+                    <VotingView
+                        users={users}
+                        presentationMode={presentationMode}
+                        setPresentationMode={setPresentationMode}
+                    />
+                </UserContext.Provider>
             )}
 
             <a
