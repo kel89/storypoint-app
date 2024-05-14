@@ -9,6 +9,10 @@ import VotingView from "./components/VotingView";
 import ResultsView from "./components/ResultsView";
 import { User } from "./types/User";
 import githubLogo from "./assets/github-mark.svg";
+import { rainDollarEmojis } from "./helpers/rainDollars";
+import { playHurryUp } from "./helpers/playHurryUp";
+import { createFloatingEmojis } from "./helpers/emojiAnimation";
+import { expandCenterEmoji } from "./helpers/expandCenterEmoji";
 
 function App() {
     const [isConnected, setIsConnected] = useState(false);
@@ -61,10 +65,43 @@ function App() {
             });
         };
 
+        const onReaction = (reaction: string, sender: string) => {
+            console.log("Reaction", reaction, sender);
+            let reactionName: string;
+            if (reaction === "makeItRain") {
+                rainDollarEmojis("💵", 3000, 100);
+                reactionName = "make it rain";
+            }
+            if (reaction === "hurryUp") {
+                playHurryUp();
+                reactionName = "we're waiting";
+            }
+            if (reaction === "happyFaces") {
+                createFloatingEmojis("😊", 3000, 100);
+                reactionName = "happy faces";
+            }
+            if (reaction === "mindBlown") {
+                expandCenterEmoji("🤯", 3000);
+                reactionName = "mind blown";
+            }
+            toast(`${sender} reacted with ${reactionName}`, {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        };
+
         socket.on("connect", onConnect);
         socket.on("users", onUsers);
         socket.on("status", onStatus);
         socket.on("showResults", onShowResults);
+        socket.on("reaction", onReaction);
         socket.on("clear", onClear);
 
         return () => {
@@ -72,6 +109,7 @@ function App() {
             socket.off("users", onUsers);
             socket.off("status", onStatus);
             socket.off("showResults", onShowResults);
+            socket.off("reaction", onReaction);
             socket.off("clear", onClear);
             socket.disconnect();
         };
