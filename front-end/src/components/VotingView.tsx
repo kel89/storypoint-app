@@ -4,6 +4,7 @@ import PointSelector from "./PointSelector";
 import { socket } from "../socket";
 import { User } from "../types/User";
 import RoleFilter from "./RoleFilter";
+import ReactionList from "./ReactionMenu";
 
 type VotingViewProps = {
     users: User[];
@@ -48,6 +49,9 @@ export default function VotingView({
                                 setRoleFilter={setRoleFilter}
                             />
                         </div>
+                    </div>
+                    <div className="w-full max-w-lg mb-2">
+                        <ReactionList />
                     </div>
                     <div className="w-full max-w-xl flex gap-2 mb-2">
                         <button

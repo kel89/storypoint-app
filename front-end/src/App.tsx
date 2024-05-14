@@ -65,7 +65,7 @@ function App() {
             });
         };
 
-        const onReaction = (data: any) => {
+        const onReaction = (data: { reaction: string; sender: string }) => {
             const { reaction, sender } = data;
             let reactionName: string;
             if (reaction === "makeItRain") {
@@ -85,7 +85,7 @@ function App() {
                 reactionName = "mind blown";
             }
             toast(`${sender} reacted with ${reactionName}`, {
-                position: "bottom-center",
+                position: "bottom-left",
                 autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,

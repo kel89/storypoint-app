@@ -10,19 +10,34 @@ export default function ReactionList() {
     };
 
     return (
-        <div>
-            <button onClick={() => sendReaction("happyFaces")}>
-                <span>😊</span>
-            </button>
-            <button onClick={() => sendReaction("makeItRain")}>
-                <span>💰</span>
-            </button>
-            <button onClick={() => sendReaction("mindBlown")}>
-                <span>🤯</span>
-            </button>
-            <button onClick={() => sendReaction("hurryUp")}>
-                We're Waiting
-            </button>
+        <div className="border rounded border-gray-100 shadow-lg p-2">
+            <h2>Reactions</h2>
+            <div className="flex flex-wrap justify-between gap-1 p-2">
+                <button
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                    onClick={() => sendReaction("happyFaces")}
+                >
+                    <span>😊</span>
+                </button>
+                <button
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                    onClick={() => sendReaction("makeItRain")}
+                >
+                    <span>💰</span>
+                </button>
+                <button
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                    onClick={() => sendReaction("mindBlown")}
+                >
+                    <span>🤯</span>
+                </button>
+                <button
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                    onClick={() => sendReaction("hurryUp")}
+                >
+                    <span>🕒</span>
+                </button>
+            </div>
         </div>
     );
 }

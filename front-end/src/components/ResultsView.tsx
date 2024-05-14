@@ -2,6 +2,7 @@ import UserList from "./UserList";
 import { User } from "../types/User";
 import { socket } from "../socket";
 import ResultsGraph from "./ResultsGraph";
+import ReactionList from "./ReactionMenu";
 
 type ResultsViewProps = {
     users: User[];
@@ -28,6 +29,9 @@ export default function ResultsView({ users }: ResultsViewProps) {
                             showPoints={true}
                             roleFilter={[]}
                         />
+                    </div>
+                    <div>
+                        <ReactionList />
                     </div>
                     <div className="w-full flex gap-2">
                         <button
