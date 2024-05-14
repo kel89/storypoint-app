@@ -50,7 +50,7 @@ export default function VotingView({
                             />
                         </div>
                     </div>
-                    <div className="w-full max-w-lg mb-2">
+                    <div className="w-full max-w-lg mb-3">
                         <ReactionList />
                     </div>
                     <div className="w-full max-w-xl flex gap-2 mb-2">

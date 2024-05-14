@@ -30,7 +30,7 @@ export default function ResultsView({ users }: ResultsViewProps) {
                             roleFilter={[]}
                         />
                     </div>
-                    <div>
+                    <div className="mb-3">
                         <ReactionList />
                     </div>
                     <div className="w-full flex gap-2">
