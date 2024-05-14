@@ -4,6 +4,7 @@ import useEmojiExplosion from "../hooks/EmojiExpolsion/useEmojiExplosion";
 import { createFloatingEmojis } from "../helpers/emojiAnimation";
 import { rainDollarEmojis } from "../helpers/rainDollars";
 import { expandCenterEmoji } from "../helpers/expandCenterEmoji";
+import { playHurryUp } from "../helpers/playHurryUp";
 type UserListProps = {
     users: User[];
     showPoints: boolean;
@@ -64,6 +65,8 @@ export default function UserList({
                 Make it Rain
             </button>
             <button onClick={() => expandCenterEmoji("🤯", 3000)}>Wow</button>
+            <br />
+            <button onClick={() => playHurryUp()}>Waiting</button>
             {users
                 .filter((user) => user.role !== Role.Presenter)
                 .filter((user) => {
