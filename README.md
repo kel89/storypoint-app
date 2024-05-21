@@ -74,6 +74,10 @@ First note that to build the container for lightsail on an apple silicon mac, yo
 Then you need to push it to the lightsaild project (make sure the correct aws profile is active in the terminal section).
 `aws lightsail push-container-image --region <Region> --service-name <ContainerServiceName> --label <ContainerImageLabel> --image <LocalContainerImageName>:<ImageTag>`
 
+For example, when I have the correct profile set, I use:
+`aws lightsail push-container-image  --service-name storypointer-test --region us-east-1 --label storypointer-app-reactions --image storypoint-app:lightsail`
+Where I would want to change the label to be something meaningfull each time.
+
 ### Domain and Routing
 
 To jog my memory later, I was able to link this to a subdomain in my aws route 53 hosted zone.
