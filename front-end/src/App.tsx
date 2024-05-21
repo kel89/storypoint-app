@@ -27,10 +27,7 @@ function App() {
 
     useEffect(() => {
         const onConnect = () => {
-            console.log(socket);
-            console.log(socket.id);
-            // setSid(socket.id);
-            // sidRef.current = socket.id;
+            sidRef.current = socket.id;
             setIsConnected(true);
         };
 
@@ -102,12 +99,9 @@ function App() {
             });
         };
 
-        const onCallout = (data: { userSid: string }) => {
-            console.log("on callout", data);
-            console.log("your sid", sidRef.current);
-            console.log("Type of your sid", typeof sidRef.current);
-            if (data.userSid == sidRef.current) {
-                console.log("there is a match");
+        const onCallout = (data: { sid: string }) => {
+            if (data.sid == sidRef.current) {
+                playHurryUp();
                 toast("You have been called out!", {
                     position: "top-center",
                     autoClose: 5000,
@@ -143,9 +137,9 @@ function App() {
     }, []);
 
     // Update sidRef whenever sid changes
-    // useEffect(() => {
-    //     sidRef.current = sid;
-    // }, [sid]);
+    useEffect(() => {
+        sidRef.current = sid;
+    }, [sid]);
 
     // If not connected, force user to conenct
     return (
