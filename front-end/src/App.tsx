@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { socket } from "./socket";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 
@@ -23,10 +23,14 @@ function App() {
     const [users, setUsers] = useState<User[]>([]);
     const [showPoints, setShowPoints] = useState(false);
     const [presentationMode, setPresentationMode] = useState(false);
+    const sidRef = useRef<string>();
 
     useEffect(() => {
         const onConnect = () => {
-            setSid(socket.id);
+            console.log(socket);
+            console.log(socket.id);
+            // setSid(socket.id);
+            // sidRef.current = socket.id;
             setIsConnected(true);
         };
 
@@ -98,11 +102,32 @@ function App() {
             });
         };
 
+        const onCallout = (data: { userSid: string }) => {
+            console.log("on callout", data);
+            console.log("your sid", sidRef.current);
+            console.log("Type of your sid", typeof sidRef.current);
+            if (data.userSid == sidRef.current) {
+                console.log("there is a match");
+                toast("You have been called out!", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
+        };
+
         socket.on("connect", onConnect);
         socket.on("users", onUsers);
         socket.on("status", onStatus);
         socket.on("showResults", onShowResults);
         socket.on("reaction", onReaction);
+        socket.on("callout", onCallout);
         socket.on("clear", onClear);
 
         return () => {
@@ -111,10 +136,16 @@ function App() {
             socket.off("status", onStatus);
             socket.off("showResults", onShowResults);
             socket.off("reaction", onReaction);
+            socket.off("callout", onCallout);
             socket.off("clear", onClear);
             socket.disconnect();
         };
     }, []);
+
+    // Update sidRef whenever sid changes
+    // useEffect(() => {
+    //     sidRef.current = sid;
+    // }, [sid]);
 
     // If not connected, force user to conenct
     return (

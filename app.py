@@ -101,5 +101,12 @@ def handle_reaction(data):
         'sender': user
     }, broadcast=True)
 
+@socketio.on("callOutUser")
+def callout_user(data):
+    user_sid = data['sid']
+    emit('callout', {
+        'sid': user_sid
+    }, broadcast=True)
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)

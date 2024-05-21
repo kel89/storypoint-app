@@ -1,5 +1,7 @@
 import { User } from "../types/User";
 import { Role } from "../types/Role";
+import { socket } from "../socket";
+
 type UserListProps = {
     users: User[];
     showPoints: boolean;
@@ -44,6 +46,10 @@ export default function UserList({
         return <span className={`${colorClass} text-xs`}>({prettyRole})</span>;
     };
 
+    const calloutUser = (sid: string) => {
+        socket.emit("callOutUser", { sid: sid });
+    };
+
     return (
         <div className="p-4 bg-white rounded-lg border shadow-md">
             <h1 className="text-2xl font-bold mb-4">Seals</h1>
@@ -66,7 +72,12 @@ export default function UserList({
                                     isWaitingForUser(user) ? "text-red-500" : ""
                                 }`}
                             >
-                                {user.username}
+                                <span
+                                    className="cursor-pointer"
+                                    onClick={() => calloutUser(user.sid)}
+                                >
+                                    {user.username}
+                                </span>
                                 &nbsp;
                                 {getRoleText(user.role)}
                             </span>
