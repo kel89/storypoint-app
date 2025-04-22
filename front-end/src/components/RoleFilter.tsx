@@ -1,4 +1,3 @@
-import React from "react";
 import { Role } from "../types/Role";
 
 type RoleFilterProps = {
@@ -32,6 +31,9 @@ export default function RoleFilter({
                 break;
             case Role.DevOps:
                 colorClass = "text-yellow-500";
+                break;
+            case Role.Designer:
+                colorClass = "text-pink-500";
                 break;
             default:
                 colorClass = "text-gray-500";
