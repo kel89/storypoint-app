@@ -4,4 +4,5 @@ export enum Role {
     QA = "qa",
     DevOps = "dev-ops",
     Presenter = "presenter",
+    Designer = "designer",
 }

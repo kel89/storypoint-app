@@ -1,6 +1,6 @@
-import { User } from "../types/User";
-import { Role } from "../types/Role";
 import { socket } from "../socket";
+import { Role } from "../types/Role";
+import { User } from "../types/User";
 
 type UserListProps = {
     users: User[];
@@ -38,6 +38,9 @@ export default function UserList({
                 break;
             case Role.DevOps:
                 colorClass = "text-yellow-500";
+                break;
+            case Role.Designer:
+                colorClass = "text-pink-500";
                 break;
             default:
                 colorClass = "text-gray-500";
